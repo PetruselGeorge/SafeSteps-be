@@ -8,6 +8,7 @@ public class SafeStepBeApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SafeStepBeApplication.class, args);
+		Integer integer = 4;
 	}
 
 }
