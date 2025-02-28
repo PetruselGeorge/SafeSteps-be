@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - includeAll:
+      path: db/changelog
+      errorIfMissingOrEmpty: false
+      resourceComparator: com.example.SafeStep_be.config.liquibase.LiquibaseResourceComparator

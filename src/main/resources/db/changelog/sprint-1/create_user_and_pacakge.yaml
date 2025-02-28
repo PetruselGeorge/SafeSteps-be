@@ -1,0 +1,85 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-user
+      author: George
+      changes:
+        - createTable:
+            tableName: packages
+            columns:
+              - column:
+                  name: package_id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_packages_id
+                    nullable: false
+              - column:
+                  name: package_type
+                  type: nvarchar(15)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_user_id
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: nvarchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                 name: last_name
+                 type: nvarchar(50)
+                 constraints:
+                   nullable: false
+              - column:
+                  name: email
+                  type: nvarchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: nvarchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                 name: address
+                 type: nvarchar(255)
+                 constraints:
+                   nullable: false
+              - column:
+                  name: city
+                  type: nvarchar(45)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: country
+                  type: nvarchar(2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: nvarchar(15)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+              - column:
+                  name: package_user_id
+                  type: uuid
+        - addForeignKeyConstraint:
+            baseColumnNames: package_user_id
+            baseTableName: users
+            constraintName: fk_users_package_id
+            onDelete: CASCADE
+            referencedColumnNames: package_id
+            referencedTableName: packages
