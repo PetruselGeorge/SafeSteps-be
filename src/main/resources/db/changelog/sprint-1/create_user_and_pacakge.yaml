@@ -18,6 +18,11 @@ databaseChangeLog:
                   type: nvarchar(15)
                   constraints:
                     nullable: false
+              - column:
+                 name: expire_date
+                 type: timestamp with time zone
+                 constraints:
+                   nullable: false
         - createTable:
             tableName: users
             columns:
