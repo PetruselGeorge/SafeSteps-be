@@ -2,20 +2,15 @@ package com.example.SafeStep_be.data.access.layer.Entity.entities;
 
 import com.example.SafeStep_be.data.access.layer.Entity.enums.PackageType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "packages")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
+@Builder
 public class PackageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

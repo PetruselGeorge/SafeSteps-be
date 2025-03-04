@@ -2,20 +2,15 @@ package com.example.SafeStep_be.data.access.layer.Entity.entities;
 
 import com.example.SafeStep_be.data.access.layer.Entity.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
+@Builder
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -48,7 +43,7 @@ public class UserEntity {
     private Role role;
 
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private ZonedDateTime zonedDateTime = ZonedDateTime.now();
+    private ZonedDateTime zonedDateTime;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "package_user_id", referencedColumnName = "package_id")
