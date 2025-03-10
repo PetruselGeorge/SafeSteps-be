@@ -1,6 +1,6 @@
-package com.example.SafeStep_be.data.access.layer.Entity.entities;
+package com.example.SafeStep_be.data.access.layer.entities;
 
-import com.example.SafeStep_be.data.access.layer.Entity.enums.PackageType;
+import com.example.SafeStep_be.data.access.layer.enums.PackageType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,7 +21,7 @@ public class PackageEntity {
     @Enumerated(value = EnumType.STRING)
     private PackageType packageType;
 
-    @Column(name = "expire_date", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name = "expire_date", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private ZonedDateTime expire_date;
 
     @OneToOne(mappedBy = "aPackage", cascade = CascadeType.ALL)

@@ -1,6 +1,6 @@
-package com.example.SafeStep_be.data.access.layer.Entity;
+package com.example.SafeStep_be.data.access.layer;
 
-import com.example.SafeStep_be.data.access.layer.Entity.entities.PackageEntity;
+import com.example.SafeStep_be.data.access.layer.entities.PackageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

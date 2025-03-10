@@ -1,17 +1,22 @@
-package com.example.SafeStep_be.data.access.layer.Entity.entities;
+package com.example.SafeStep_be.data.access.layer.entities;
 
-import com.example.SafeStep_be.data.access.layer.Entity.enums.Role;
+import com.example.SafeStep_be.data.access.layer.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.ZonedDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 @Data
 @Builder
-public class UserEntity {
+public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
@@ -49,4 +54,22 @@ public class UserEntity {
     @JoinColumn(name = "package_user_id", referencedColumnName = "package_id")
     PackageEntity aPackage;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    public String fullName() {
+        return firstName + " " + lastName;
+    }
 }
