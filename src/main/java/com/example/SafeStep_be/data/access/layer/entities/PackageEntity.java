@@ -11,6 +11,8 @@ import java.util.UUID;
 @Table(name = "packages")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PackageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

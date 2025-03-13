@@ -13,6 +13,6 @@ public interface UserController {
     String ENDPOINT = "/api/auth";
 
     @PostMapping("/register")
-    ResponseEntity<Void> registerUser(@RequestBody @Valid RegistrationUserDto registrationUserDto);
+    public ResponseEntity<Void> registerUser(@RequestBody @Valid RegistrationUserDto registrationUserDto);
 
 }
