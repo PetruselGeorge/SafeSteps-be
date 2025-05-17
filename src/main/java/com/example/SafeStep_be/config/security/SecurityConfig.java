@@ -30,7 +30,7 @@ public class SecurityConfig {
         httpSecurity.authenticationProvider(authenticationProvider);
 
         httpSecurity.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
+                .requestMatchers("/api/auth/login", "/api/auth/register","/api/auth/check-email").permitAll()
                 .requestMatchers("/api/auth/refresh").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                 .requestMatchers("/api/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                 .anyRequest().authenticated()
