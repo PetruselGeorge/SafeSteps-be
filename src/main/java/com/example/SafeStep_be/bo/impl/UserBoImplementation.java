@@ -27,6 +27,7 @@ public class UserBoImplementation implements UserBo {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<UserEntity> optionalUserEntity = userRepository.findByEmail(email);
@@ -60,6 +61,7 @@ public class UserBoImplementation implements UserBo {
     public boolean emailExists(String email) {
         return userRepository.existsByEmail(email);
     }
+
     public LoginResponseDto authenticateUser(LoginRequestDto loginRequestDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -72,8 +74,8 @@ public class UserBoImplementation implements UserBo {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
 
-        String jwtToken = jwtTokenUtil.generateToken(user);
-        String refreshToken = jwtTokenUtil.generateRefreshToken(user.getEmail());
+        String jwtToken = jwtTokenUtil.generateAccessToken(user);
+        String refreshToken = jwtTokenUtil.generateRefreshToken(user);
 
         return new LoginResponseDto(
                 jwtToken,
@@ -84,4 +86,56 @@ public class UserBoImplementation implements UserBo {
         );
     }
 
+
+    @Override
+    public UserEntity findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    public String validateRefreshToken(String refreshToken) {
+        try {
+            System.out.println("Received refresh token: " + refreshToken);
+
+            String email = jwtTokenUtil.extractUsernameFromRefreshToken(refreshToken);
+            System.out.println("Extracted email: " + email);
+
+            if (email == null) {
+                System.out.println("Failed to extract email from refresh token.");
+                return null;
+            }
+
+            boolean isValid = jwtTokenUtil.isRefreshTokenValid(refreshToken, email);
+            System.out.println("Is token valid: " + isValid);
+
+            if (isValid) {
+                System.out.println("Valid refresh token for email: " + email);
+                return email;
+            } else {
+                System.out.println("Invalid refresh token (validation failed)");
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid refresh token: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public LoginResponseDto generateAccessToken(String email) {
+        UserEntity user = findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found for email: " + email);
+        }
+
+        String jwtToken = jwtTokenUtil.generateAccessToken(user);
+        String refreshToken = jwtTokenUtil.generateRefreshToken(user);
+
+        return new LoginResponseDto(
+                jwtToken,
+                refreshToken,
+                user.getFirstName(),
+                user.getLastName(),
+                user.getRole().name()
+        );
+    }
 }

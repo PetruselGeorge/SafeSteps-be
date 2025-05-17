@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String email = jwtTokenUtil.extractUsername(token);
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            Claims claims = jwtTokenUtil.extractClaims(token);
+            Claims claims = jwtTokenUtil.extractClaims(token, jwtTokenUtil.getSecretKey());
 
             if (jwtTokenUtil.isTokenValid(token, email)) {
                 Object rawRoles = claims.get("packages");
@@ -55,6 +55,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     roles = ((List<?>) rawRoles).stream()
                             .filter(item -> item instanceof String)
                             .map(String.class::cast)
+                            .map(role -> role.startsWith("ROLE_") ? role : "ROLE_" + role)
                             .collect(Collectors.toList());
                 } else {
                     roles = List.of();

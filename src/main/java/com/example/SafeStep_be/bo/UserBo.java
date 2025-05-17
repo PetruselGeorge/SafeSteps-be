@@ -7,7 +7,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserBo extends UserDetailsService {
     void createUser(UserEntity user);
+
     boolean emailExists(String email);
+
     LoginResponseDto authenticateUser(LoginRequestDto loginRequestDto);
 
+    UserEntity findByEmail(String email);
+
+    String validateRefreshToken(String refreshToken);
+
+    LoginResponseDto generateAccessToken(String email);
 }

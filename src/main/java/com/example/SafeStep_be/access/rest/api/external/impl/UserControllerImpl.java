@@ -4,6 +4,7 @@ import com.example.SafeStep_be.access.rest.api.external.UserController;
 import com.example.SafeStep_be.bf.UserFacade;
 import com.example.SafeStep_be.dto.LoginRequestDto;
 import com.example.SafeStep_be.dto.LoginResponseDto;
+import com.example.SafeStep_be.dto.RefreshTokenRequest;
 import com.example.SafeStep_be.dto.RegistrationUserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,20 @@ public class UserControllerImpl implements UserController {
     public ResponseEntity<LoginResponseDto> login(LoginRequestDto loginRequestDto) {
         LoginResponseDto loginResponse = userFacade.authenticateUser(loginRequestDto);
         return ResponseEntity.ok(loginResponse);
+    }
+
+    @Override
+    public ResponseEntity<?> refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        String refreshToken = refreshTokenRequest.getRefreshToken().trim();
+
+        String email = userFacade.validateRefreshToken(refreshToken);
+
+        if (email == null) {
+            return ResponseEntity.status(401).body("Invalid refresh token");
+        }
+
+        LoginResponseDto newAccessToken = userFacade.generateAccessToken(email);
+        return ResponseEntity.ok(newAccessToken);
     }
 
 }

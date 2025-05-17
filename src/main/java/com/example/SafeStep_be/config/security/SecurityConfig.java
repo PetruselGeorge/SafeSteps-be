@@ -22,17 +22,18 @@ public class SecurityConfig {
 
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         httpSecurity.authenticationProvider(authenticationProvider);
 
-        httpSecurity.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**")
-                        .permitAll()
-                        .requestMatchers("/api/user/**").hasRole("USER")
-                        .anyRequest().authenticated()
+        httpSecurity.authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
+                .requestMatchers("/api/auth/refresh").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                .requestMatchers("/api/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                .anyRequest().authenticated()
         )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
