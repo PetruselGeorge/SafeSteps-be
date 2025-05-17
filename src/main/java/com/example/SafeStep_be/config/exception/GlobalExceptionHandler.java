@@ -32,7 +32,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         body.put("timestamp", new Date());
         body.put("status", status.value());
 
-        // Collect all field errors in a list
         List<String> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
@@ -60,7 +59,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-    // Generic handler for all other exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
