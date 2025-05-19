@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 001-create-user
+      id: 001-create-packages
       author: George
       changes:
         - createTable:
@@ -11,7 +11,7 @@ databaseChangeLog:
                   type: uuid
                   constraints:
                     primaryKey: true
-                    primaryKeyName: pk_packages_id
+                    primaryKeyName: pk_package_id
                     nullable: false
               - column:
                   name: package_type
@@ -19,8 +19,15 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                 name: expire_date
-                 type: timestamp with time zone
+                  name: expire_date
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: true
+
+  - changeSet:
+      id: 002-create-users
+      author: George
+      changes:
         - createTable:
             tableName: users
             columns:
@@ -37,10 +44,10 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                 name: last_name
-                 type: nvarchar(50)
-                 constraints:
-                   nullable: false
+                  name: last_name
+                  type: nvarchar(50)
+                  constraints:
+                    nullable: false
               - column:
                   name: email
                   type: nvarchar(255)
@@ -53,10 +60,10 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                 name: address
-                 type: nvarchar(255)
-                 constraints:
-                   nullable: false
+                  name: address
+                  type: nvarchar(255)
+                  constraints:
+                    nullable: false
               - column:
                   name: city
                   type: nvarchar(45)
@@ -77,12 +84,19 @@ databaseChangeLog:
                   type: timestamp with time zone
                   defaultValueComputed: now()
               - column:
+                  name: token_version
+                  type: int
+                  defaultValue: 1
+                  constraints:
+                    nullable: false
+              - column:
                   name: package_user_id
                   type: uuid
+
         - addForeignKeyConstraint:
             baseColumnNames: package_user_id
             baseTableName: users
             constraintName: fk_users_package_id
-            onDelete: CASCADE
             referencedColumnNames: package_id
             referencedTableName: packages
+            onDelete: CASCADE

@@ -17,4 +17,6 @@ public interface UserBo extends UserDetailsService {
     String validateRefreshToken(String refreshToken);
 
     LoginResponseDto generateAccessToken(String email);
+
+    boolean isTokenValid(String accessToken);
 }

@@ -1,12 +1,15 @@
 package com.example.SafeStep_be.bo.impl;
 
+import com.example.SafeStep_be.bo.RefreshTokenBo;
 import com.example.SafeStep_be.bo.UserBo;
 import com.example.SafeStep_be.data.access.layer.UserRepository;
+import com.example.SafeStep_be.data.access.layer.entities.RefreshTokenEntity;
 import com.example.SafeStep_be.data.access.layer.entities.UserEntity;
 import com.example.SafeStep_be.data.access.layer.enums.Role;
 import com.example.SafeStep_be.dto.LoginRequestDto;
 import com.example.SafeStep_be.dto.LoginResponseDto;
 import com.example.SafeStep_be.exceptions.UserAlreadyExistException;
+import com.example.SafeStep_be.util.JwtService;
 import com.example.SafeStep_be.util.JwtTokenUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,7 +30,8 @@ public class UserBoImplementation implements UserBo {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
-
+    private final RefreshTokenBo refreshTokenBo;
+    private final JwtService jwtService;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<UserEntity> optionalUserEntity = userRepository.findByEmail(email);
@@ -62,6 +66,7 @@ public class UserBoImplementation implements UserBo {
         return userRepository.existsByEmail(email);
     }
 
+    @Override
     public LoginResponseDto authenticateUser(LoginRequestDto loginRequestDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -73,13 +78,13 @@ public class UserBoImplementation implements UserBo {
         UserEntity user = userRepository.findByEmail(loginRequestDto.email())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
+        refreshTokenBo.deleteByUser(user);
 
         String jwtToken = jwtTokenUtil.generateAccessToken(user);
-        String refreshToken = jwtTokenUtil.generateRefreshToken(user);
-
+        RefreshTokenEntity refreshToken = refreshTokenBo.createRefreshToken(user);
         return new LoginResponseDto(
                 jwtToken,
-                refreshToken,
+                refreshToken.getToken(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getRole().name()
@@ -105,7 +110,7 @@ public class UserBoImplementation implements UserBo {
                 return null;
             }
 
-            boolean isValid = jwtTokenUtil.isRefreshTokenValid(refreshToken, email);
+            boolean isValid = jwtService.isRefreshTokenValid(refreshToken, email);
             System.out.println("Is token valid: " + isValid);
 
             if (isValid) {
@@ -127,15 +132,32 @@ public class UserBoImplementation implements UserBo {
             throw new UsernameNotFoundException("User not found for email: " + email);
         }
 
+        user.setTokenVersion(user.getTokenVersion() + 1);
+        userRepository.save(user);
+
+        refreshTokenBo.deleteByUser(user);
+
         String jwtToken = jwtTokenUtil.generateAccessToken(user);
-        String refreshToken = jwtTokenUtil.generateRefreshToken(user);
+        String newRefreshToken = refreshTokenBo.createRefreshToken(user).getToken();
 
         return new LoginResponseDto(
                 jwtToken,
-                refreshToken,
+                newRefreshToken,
                 user.getFirstName(),
                 user.getLastName(),
                 user.getRole().name()
         );
     }
+
+    @Override
+    public boolean isTokenValid(String token) {
+        try {
+            String email = jwtTokenUtil.extractUsername(token);
+            return jwtTokenUtil.isTokenValid(token, email);
+        } catch (Exception e) {
+            System.err.println("Error validating token: " + e.getMessage());
+            return false;
+        }
+    }
+
 }

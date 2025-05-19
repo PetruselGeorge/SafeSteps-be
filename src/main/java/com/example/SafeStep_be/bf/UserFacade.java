@@ -18,4 +18,7 @@ public interface UserFacade {
     String validateRefreshToken(String refreshToken);
 
     LoginResponseDto generateAccessToken(String email);
+
+    boolean validateAccessToken(String accessToken);
+
 }

@@ -51,4 +51,9 @@ public class UserFacadeImpl implements UserFacade {
     public LoginResponseDto generateAccessToken(String email) {
         return userBo.generateAccessToken(email);
     }
+
+    @Override
+    public boolean validateAccessToken(String accessToken) {
+        return userBo.isTokenValid(accessToken);
+    }
 }

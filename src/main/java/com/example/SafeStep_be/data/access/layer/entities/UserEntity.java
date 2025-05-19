@@ -52,6 +52,9 @@ public class UserEntity implements UserDetails {
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private ZonedDateTime zonedDateTime;
 
+    @Column(name = "token_version", nullable = false)
+    private int tokenVersion = 1;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "package_user_id", referencedColumnName = "package_id")
     PackageEntity aPackage;

@@ -1,5 +1,8 @@
 databaseChangeLog:
-  - includeAll:
-      path: db/changelog
-      errorIfMissingOrEmpty: false
-      resourceComparator: com.example.SafeStep_be.config.liquibase.LiquibaseResourceComparator
+  - include:
+      file: db/changelog/sprint-1/create_user_and_package.yaml
+  - include:
+      file: db/changelog/sprint-1/create_refresh_token.yaml
+  - include:
+      file: db/changelog/sprint-1/insert_user_and_package.yaml
+

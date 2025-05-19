@@ -1,5 +1,6 @@
 package com.example.SafeStep_be.util;
 
+import com.example.SafeStep_be.bo.RefreshTokenBo;
 import com.example.SafeStep_be.data.access.layer.entities.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -89,24 +90,6 @@ public class JwtTokenUtil {
             return false;
         }
     }
-
-    public boolean isRefreshTokenValid(String token, String email) {
-        try {
-            String extractedEmail = extractUsernameFromRefreshToken(token);
-            boolean isExpired = isTokenExpired(token, refreshSecretKey);
-            boolean emailsMatch = extractedEmail.equals(email);
-
-            System.out.println("Extracted email: " + extractedEmail);
-            System.out.println("Token expired: " + isExpired);
-            System.out.println("Emails match: " + emailsMatch);
-
-            return emailsMatch && !isExpired;
-        } catch (Exception e) {
-            System.out.println("Invalid refresh token: " + e.getMessage());
-            return false;
-        }
-    }
-
 
     private Date extractExpiration(String token, SecretKey key) {
         return extractClaim(token, Claims::getExpiration, key);

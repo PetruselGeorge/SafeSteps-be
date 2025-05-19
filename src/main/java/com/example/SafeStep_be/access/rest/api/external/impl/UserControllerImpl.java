@@ -48,4 +48,23 @@ public class UserControllerImpl implements UserController {
         return ResponseEntity.ok(newAccessToken);
     }
 
+    @Override
+    public ResponseEntity<Boolean> validateAccessToken(String accessToken) {
+        try {
+            if (accessToken != null && accessToken.startsWith("Bearer ")) {
+                accessToken = accessToken.substring(7);
+            }
+
+            boolean isValid = userFacade.validateAccessToken(accessToken);
+
+            if (!isValid) {
+                return ResponseEntity.ok(false);
+            }
+
+            return ResponseEntity.ok(true);
+        } catch (Exception e) {
+            return ResponseEntity.ok(false);
+        }
+    }
+
 }

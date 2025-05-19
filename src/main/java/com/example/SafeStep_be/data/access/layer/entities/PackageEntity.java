@@ -23,7 +23,7 @@ public class PackageEntity {
     @Enumerated(value = EnumType.STRING)
     private PackageType packageType;
 
-    @Column(name = "expire_date", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name = "expire_date", columnDefinition = "TIMESTAMP WITH TIME ZONE", nullable = true)
     private ZonedDateTime expire_date;
 
     @OneToOne(mappedBy = "aPackage", cascade = CascadeType.ALL)

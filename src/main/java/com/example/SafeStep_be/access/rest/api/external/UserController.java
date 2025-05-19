@@ -27,4 +27,8 @@ public interface UserController {
     @PostMapping("/refresh")
     ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest);
 
+    @GetMapping("/validate-token")
+    ResponseEntity<Boolean> validateAccessToken(@RequestHeader("Authorization") String accessToken);
+
+
 }
