@@ -5,4 +5,10 @@ databaseChangeLog:
       file: db/changelog/sprint-1/create_refresh_token.yaml
   - include:
       file: db/changelog/sprint-1/insert_user_and_package.yaml
+  - include:
+      file: db/changelog/sprint-1/create_trail.yaml
+  - include:
+      file: db/changelog/sprint-1/create_trail_image.yaml
+  - include:
+      file: db/changelog/sprint-1/create_trail_coordinate.yaml
 

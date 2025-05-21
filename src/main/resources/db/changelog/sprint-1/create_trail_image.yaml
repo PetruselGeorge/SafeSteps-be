@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-create-trail-image
+      author: George
+      changes:
+        - createTable:
+            tableName: trail_images
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: trail_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: image_blob
+                  type: BLOB
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: trail_images
+            baseColumnNames: trail_id
+            constraintName: fk_trail_trail_image_id
+            referencedTableName: trails
+            referencedColumnNames: id
+            onDelete: CASCADE

@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-create-trail
+      author: George
+      changes:
+        - createTable:
+            tableName: trails
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: distance_km
+                  type: DECIMAL(5,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: difficulty
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: main_image
+                  type: BLOB
+                  constraints:
+                    nullable: true

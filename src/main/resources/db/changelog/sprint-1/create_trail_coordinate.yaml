@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-create-trail-coordinate
+      author: George
+      changes:
+        - createTable:
+            tableName: trail_coordinates
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: trail_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: latitude
+                  type: DOUBLE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: longitude
+                  type: DOUBLE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: position_order
+                  type: INT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: trail_coordinates
+            baseColumnNames: trail_id
+            constraintName: fk_trail_coordinates_trail_id
+            referencedTableName: trails
+            referencedColumnNames: id
+            onDelete: CASCADE
