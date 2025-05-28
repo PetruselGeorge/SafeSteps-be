@@ -3,11 +3,16 @@ package com.example.SafeStep_be.bo.impl;
 import com.example.SafeStep_be.bo.TrailBo;
 import com.example.SafeStep_be.bo.utils.ComputeTotalDistance;
 import com.example.SafeStep_be.bo.utils.LatLng;
+import com.example.SafeStep_be.bo.utils.TrailDifficultyEstimator;
 import com.example.SafeStep_be.data.access.layer.TrailCoordinateRepository;
 import com.example.SafeStep_be.data.access.layer.TrailRepository;
 import com.example.SafeStep_be.data.access.layer.entities.TrailCoordinateEntity;
 import com.example.SafeStep_be.data.access.layer.entities.TrailEntity;
+import com.example.SafeStep_be.dto.TrailSummaryDto;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.Document;
@@ -23,6 +28,8 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,9 +37,9 @@ public class TrailBoImplementation implements TrailBo {
 
     private final TrailRepository trailRepository;
     private final TrailCoordinateRepository trailCoordinateRepository;
-
+    private final TrailDifficultyEstimator trailDifficultyEstimator;
     @Override
-    public void createTrailFromGpx(MultipartFile gpxFile) {
+    public TrailEntity createTrailFromGpx(MultipartFile gpxFile) {
         try {
             InputStream is = gpxFile.getInputStream();
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -55,9 +62,11 @@ public class TrailBoImplementation implements TrailBo {
             }
 
             BigDecimal distance = ComputeTotalDistance.computeTotalDistance(points);
+            String difficulty = trailDifficultyEstimator.estimateDifficulty(points, name, distance);
+
             TrailEntity trailEntity = TrailEntity.builder()
                     .name(name)
-                    .difficulty("dif")
+                    .difficulty(difficulty)
                     .distanceKm(distance)
                     .build();
 
@@ -76,9 +85,38 @@ public class TrailBoImplementation implements TrailBo {
             }
             trailCoordinateRepository.saveAll(coordinateEntities);
 
+            return trailEntity;
         } catch (IOException | ParserConfigurationException | SAXException e) {
             throw new RuntimeException(e);
         }
     }
 
+    @Override
+    public Page<TrailEntity> getAllTrails(Pageable pageable) {
+        return trailRepository.findAll(pageable);
+    }
+
+    @Override
+    public void updateMainImage(UUID trailId, MultipartFile file) {
+        TrailEntity trail = trailRepository.findById(trailId)
+                .orElseThrow(() -> new EntityNotFoundException("Trail not found"));
+
+        try {
+            byte[] imageBytes = file.getBytes();
+            trail.setMainImage(imageBytes);
+            trailRepository.save(trail);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read image file", e);
+        }
+    }
+
+    @Override
+    public Optional<TrailEntity> findById(UUID trailId) {
+        return trailRepository.findById(trailId);
+    }
+
+    @Override
+    public Page<TrailSummaryDto> searchWithFilters(String name, BigDecimal maxDistance, String difficulty, Pageable pageable) {
+        return trailRepository.searchWithFilters(name, maxDistance, difficulty, pageable);
+    }
 }

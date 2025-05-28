@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-
-
 public class ComputeTotalDistance {
     public static BigDecimal computeTotalDistance(List<LatLng> points){
         double totalKm=0.0;

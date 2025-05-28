@@ -33,7 +33,9 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/login", "/api/auth/register","/api/auth/check-email","/api/auth/refresh").permitAll()
                 .requestMatchers("/api/auth/refresh").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                 .requestMatchers("/api/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-                .anyRequest().authenticated()
+                .requestMatchers("/api/trails/upload","/api/trails/*/main-image").hasAnyAuthority("ROLE_ADMIN")
+
+                        .anyRequest().authenticated()
         )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
