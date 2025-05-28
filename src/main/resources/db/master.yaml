@@ -11,4 +11,5 @@ databaseChangeLog:
       file: db/changelog/sprint-1/create_trail_image.yaml
   - include:
       file: db/changelog/sprint-1/create_trail_coordinate.yaml
-
+  - include:
+      file: db/changelog/sprint-1/create_favorite_trail.yaml

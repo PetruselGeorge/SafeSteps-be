@@ -138,4 +138,16 @@ public class JwtTokenUtil {
         claims.put("packages", List.of("ROLE_" + user.getRole().name()));
         return claims;
     }
+
+    public UUID extractUserId(String token) {
+        String id = extractClaim(token, claims -> claims.get("id", String.class), secretKey);
+        return UUID.fromString(id);
+    }
+
+    public String extractTokenFromHeader(String header) {
+        if (header != null && header.startsWith("Bearer ")) {
+            return header.substring(7);
+        }
+        throw new IllegalArgumentException("Invalid Authorization header");
+    }
 }

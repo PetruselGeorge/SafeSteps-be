@@ -36,3 +36,6 @@ else
         exit 1
     fi
 fi
+
+echo "Ensuring 'unaccent' extension is enabled..."
+psql -U "$DB_USERNAME" -h "$DB_HOST" -p "$DB_PORT" -d "$DB_NAME" -c "CREATE EXTENSION IF NOT EXISTS unaccent;"

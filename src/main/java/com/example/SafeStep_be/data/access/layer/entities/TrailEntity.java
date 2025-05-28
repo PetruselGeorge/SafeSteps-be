@@ -47,4 +47,7 @@ public class TrailEntity {
     @OrderBy("positionOrder ASC")
     private List<TrailCoordinateEntity> coordinates = new ArrayList<>();
 
+    @OneToMany(mappedBy = "trail", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FavoriteTrailEntity> favouriteTrails= new ArrayList<>();
+
 }

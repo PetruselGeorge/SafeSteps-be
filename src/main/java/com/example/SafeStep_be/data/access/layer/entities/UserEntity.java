@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -58,6 +59,9 @@ public class UserEntity implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "package_user_id", referencedColumnName = "package_id")
     PackageEntity aPackage;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FavoriteTrailEntity> favouriteTrails = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
