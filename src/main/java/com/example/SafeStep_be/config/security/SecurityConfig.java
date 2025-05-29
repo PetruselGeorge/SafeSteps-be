@@ -3,6 +3,7 @@ package com.example.SafeStep_be.config.security;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,13 +31,15 @@ public class SecurityConfig {
         httpSecurity.authenticationProvider(authenticationProvider);
 
         httpSecurity.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/auth/login", "/api/auth/register","/api/auth/check-email","/api/auth/refresh").permitAll()
-                .requestMatchers("/api/auth/refresh").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-                .requestMatchers("/api/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-                .requestMatchers("/api/trails/upload","/api/trails/*/main-image").hasAnyAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/check-email", "/api/auth/refresh").permitAll()
+                        .requestMatchers("/api/auth/refresh").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                        .requestMatchers("/api/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                        .requestMatchers(HttpMethod.GET, "/api/trails/*/main-image").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                        .requestMatchers(HttpMethod.PATCH, "/api/trails/*/main-image").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/trails/upload").hasAuthority("ROLE_ADMIN")
 
                         .anyRequest().authenticated()
-        )
+                )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
 
