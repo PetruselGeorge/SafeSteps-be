@@ -27,12 +27,12 @@ public class TrailDifficultyEstimator {
 
             String safePrompt = prompt.replace("\"", "\\\"").replace("\n", "\\n");
             String jsonBody = String.format("""
-                                {
-                                  "model": "llama3",
-                                  "prompt": "%s",
-                                  "stream": false
-                                }
-                                """, safePrompt);
+                    {
+                      "model": "llama3",
+                      "prompt": "%s",
+                      "stream": false
+                    }
+                    """, safePrompt);
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(ollamaApiUrl))

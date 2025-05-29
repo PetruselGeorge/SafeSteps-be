@@ -40,6 +40,7 @@ public class TrailBoImplementation implements TrailBo {
     private final TrailCoordinateRepository trailCoordinateRepository;
     private final TrailDifficultyEstimator trailDifficultyEstimator;
     private final ReverseGeocodingBo reverseGeocodingBo;
+
     @Override
     public TrailEntity createTrailFromGpx(MultipartFile gpxFile) {
         try {
@@ -49,18 +50,18 @@ public class TrailBoImplementation implements TrailBo {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(is);
 
-            NodeList nameNodes = doc.getElementsByTagNameNS("*","name");
+            NodeList nameNodes = doc.getElementsByTagNameNS("*", "name");
             String name = (nameNodes.getLength() > 0) ? nameNodes.item(0).getTextContent() : "Unnamed Trail";
 
 
-            NodeList trkptNodes = doc.getElementsByTagNameNS("*","trkpt");
+            NodeList trkptNodes = doc.getElementsByTagNameNS("*", "trkpt");
             List<LatLng> points = new ArrayList<>();
 
-            for(int i=0;i< trkptNodes.getLength();i++){
+            for (int i = 0; i < trkptNodes.getLength(); i++) {
                 Element trkpt = (Element) trkptNodes.item(i);
                 double lat = Double.parseDouble(trkpt.getAttribute("lat"));
                 double lon = Double.parseDouble(trkpt.getAttribute("lon"));
-                points.add(new LatLng(lat,lon));
+                points.add(new LatLng(lat, lon));
             }
 
             BigDecimal distance = ComputeTotalDistance.computeTotalDistance(points);
@@ -76,13 +77,13 @@ public class TrailBoImplementation implements TrailBo {
 
             List<TrailCoordinateEntity> coordinateEntities = new ArrayList<>();
 
-            for(int i =0 ; i<points.size();i++){
+            for (int i = 0; i < points.size(); i++) {
                 LatLng p = points.get(i);
                 coordinateEntities.add(TrailCoordinateEntity.builder()
-                                .trail(trailEntity)
-                                .latitude(p.getLat())
-                                .longitude(p.getLon())
-                                .positionOrder(i)
+                        .trail(trailEntity)
+                        .latitude(p.getLat())
+                        .longitude(p.getLon())
+                        .positionOrder(i)
                         .build());
             }
             trailCoordinateRepository.saveAll(coordinateEntities);

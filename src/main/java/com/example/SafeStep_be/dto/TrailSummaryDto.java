@@ -10,4 +10,5 @@ public record TrailSummaryDto(
         BigDecimal distanceKm,
         String difficulty,
         String location
-) {}
+) {
+}

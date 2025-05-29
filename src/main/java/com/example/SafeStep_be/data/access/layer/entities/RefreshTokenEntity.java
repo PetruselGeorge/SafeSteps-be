@@ -17,13 +17,13 @@ public class RefreshTokenEntity {
     @Column(name = "token_id")
     private UUID tokenId;
 
-    @Column(name = "token",nullable = false, unique = true)
+    @Column(name = "token", nullable = false, unique = true)
     private String token;
 
-    @Column(name = "created_at",nullable = false)
+    @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
-    @Column(name = "expires_at",nullable = false)
+    @Column(name = "expires_at", nullable = false)
     private Instant expiresAt;
 
     @ManyToOne(fetch = FetchType.LAZY)

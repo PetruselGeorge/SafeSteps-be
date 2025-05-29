@@ -17,4 +17,5 @@ public record FavoriteTrailDto(
         LocalDateTime addedAt,
         String mainImageUrl
 
-) {}
+) {
+}

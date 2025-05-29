@@ -25,7 +25,7 @@ public class UserControllerImpl implements UserController {
 
     @Override
     public ResponseEntity<Map<String, Boolean>> checkEmail(String email) {
-        return ResponseEntity.ok(Map.of("exists",userFacade.checkEmail(email)));
+        return ResponseEntity.ok(Map.of("exists", userFacade.checkEmail(email)));
     }
 
     @Override

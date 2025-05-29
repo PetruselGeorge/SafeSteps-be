@@ -24,6 +24,7 @@ public class FavoriteTrailControllerImpl implements FavoriteTrailController {
         String token = jwtTokenUtil.extractTokenFromHeader(authHeader);
         return ResponseEntity.ok(favoriteTrailFacade.addFavoriteTrail(dto, token));
     }
+
     @Override
     public ResponseEntity<Void> deleteFavorite(UUID trailId, String authHeader) {
         String token = jwtTokenUtil.extractTokenFromHeader(authHeader);
@@ -36,7 +37,6 @@ public class FavoriteTrailControllerImpl implements FavoriteTrailController {
         String token = jwtTokenUtil.extractTokenFromHeader(authHeader);
         return ResponseEntity.ok(favoriteTrailFacade.getAllFavoriteTrails(token, pageable));
     }
-
 
 
 }

@@ -19,6 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TrailControllerImpl implements TrailController {
     private final TrailFacade trailFacade;
+
     @Override
     public ResponseEntity<TrailResponseDto> uploadTrail(MultipartFile file) {
         return ResponseEntity.ok(trailFacade.upload(file));
@@ -33,7 +34,8 @@ public class TrailControllerImpl implements TrailController {
     @Override
     public ResponseEntity<Void> updateMainImage(UUID trailId, MultipartFile file) {
         trailFacade.updateMainImage(trailId, file);
-        return ResponseEntity.noContent().build();    }
+        return ResponseEntity.noContent().build();
+    }
 
     @Override
     public ResponseEntity<byte[]> getMainImage(UUID trailId) {

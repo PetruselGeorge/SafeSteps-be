@@ -21,6 +21,6 @@ public interface TrailBo {
 
     Optional<TrailEntity> findById(UUID trailId);
 
-     Page<TrailSummaryDto> searchWithFilters(String name, BigDecimal maxDistance, String difficulty, Pageable pageable);
+    Page<TrailSummaryDto> searchWithFilters(String name, BigDecimal maxDistance, String difficulty, Pageable pageable);
 
 }

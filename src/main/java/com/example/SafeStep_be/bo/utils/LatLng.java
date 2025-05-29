@@ -6,5 +6,5 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class LatLng {
-    private double lat,lon;
+    private double lat, lon;
 }

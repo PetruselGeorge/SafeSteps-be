@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 public interface ProfileController {
     String ENDPOINT = "/api/user";
+
     @GetMapping("/profile")
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public String getUserProfile();

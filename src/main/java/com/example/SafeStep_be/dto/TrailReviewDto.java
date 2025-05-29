@@ -10,4 +10,5 @@ public record TrailReviewDto(
         int rating,
         String comment,
         LocalDateTime createdAt
-) {}
+) {
+}

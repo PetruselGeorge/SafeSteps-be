@@ -32,6 +32,7 @@ public class UserBoImplementation implements UserBo {
     private final JwtTokenUtil jwtTokenUtil;
     private final RefreshTokenBo refreshTokenBo;
     private final JwtService jwtService;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<UserEntity> optionalUserEntity = userRepository.findByEmail(email);

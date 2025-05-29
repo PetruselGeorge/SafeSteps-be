@@ -37,8 +37,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/trails/*/main-image").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                         .requestMatchers(HttpMethod.PATCH, "/api/trails/*/main-image").hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/api/trails/upload").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/api/trails/*/images").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.DELETE,"/api/trails/*/images/*").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/trails/*/images").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/trails/*/images/*").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

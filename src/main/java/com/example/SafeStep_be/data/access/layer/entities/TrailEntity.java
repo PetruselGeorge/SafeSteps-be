@@ -51,6 +51,6 @@ public class TrailEntity {
     private List<TrailCoordinateEntity> coordinates = new ArrayList<>();
 
     @OneToMany(mappedBy = "trail", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FavoriteTrailEntity> favouriteTrails= new ArrayList<>();
+    private List<FavoriteTrailEntity> favouriteTrails = new ArrayList<>();
 
 }

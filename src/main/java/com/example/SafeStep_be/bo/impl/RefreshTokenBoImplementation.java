@@ -37,6 +37,7 @@ public class RefreshTokenBoImplementation implements RefreshTokenBo {
         System.out.println("Created Refresh Token: " + savedToken.getToken());
         return savedToken;
     }
+
     @Override
     public Optional<RefreshTokenEntity> findByToken(String token) {
         return refreshTokenRepository.findByToken(token);

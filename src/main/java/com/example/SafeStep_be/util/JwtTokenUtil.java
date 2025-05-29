@@ -80,7 +80,7 @@ public class JwtTokenUtil {
         try {
             String extractedEmail = extractUsername(token);
             boolean emailsMatch = extractedEmail.equals(email);
-            boolean isExpired = isTokenExpired(token,getSecretKey());
+            boolean isExpired = isTokenExpired(token, getSecretKey());
             System.out.println("Extracted email: " + extractedEmail);
             System.out.println("Emails match: " + emailsMatch);
             System.out.println("Token expired: " + isExpired);

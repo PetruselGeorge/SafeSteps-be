@@ -19,7 +19,7 @@ public interface UserController {
     ResponseEntity<Void> registerUser(@RequestBody @Valid RegistrationUserDto registrationUserDto);
 
     @GetMapping("/check-email")
-    ResponseEntity<Map<String,Boolean>> checkEmail(@RequestParam @Valid String email);
+    ResponseEntity<Map<String, Boolean>> checkEmail(@RequestParam @Valid String email);
 
     @PostMapping("/login")
     ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto);
