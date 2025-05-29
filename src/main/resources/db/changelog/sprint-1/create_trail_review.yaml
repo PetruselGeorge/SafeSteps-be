@@ -1,0 +1,53 @@
+- changeSet:
+    id: 008-create-trail-reviews
+    author: George
+    changes:
+      - createTable:
+          tableName: trail_reviews
+          columns:
+            - column:
+                name: id
+                type: UUID
+                constraints:
+                  primaryKey: true
+                  nullable: false
+            - column:
+                name: trail_id
+                type: UUID
+                constraints:
+                  nullable: false
+            - column:
+                name: user_id
+                type: UUID
+                constraints:
+                  nullable: false
+            - column:
+                name: rating
+                type: INT
+                constraints:
+                  nullable: false
+            - column:
+                name: comment
+                type: VARCHAR(1000)
+            - column:
+                name: created_at
+                type: TIMESTAMP
+                defaultValueComputed: CURRENT_TIMESTAMP
+                constraints:
+                  nullable: false
+
+      - addForeignKeyConstraint:
+          baseTableName: trail_reviews
+          baseColumnNames: trail_id
+          constraintName: fk_trail_reviews_trail_id
+          referencedTableName: trails
+          referencedColumnNames: id
+          onDelete: CASCADE
+
+      - addForeignKeyConstraint:
+          baseTableName: trail_reviews
+          baseColumnNames: user_id
+          constraintName: fk_trail_reviews_user_id
+          referencedTableName: users
+          referencedColumnNames: id
+          onDelete: CASCADE

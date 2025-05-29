@@ -43,7 +43,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
-    // Handle HTTP method not supported
     @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
             @NonNull org.springframework.web.HttpRequestMethodNotSupportedException ex,
