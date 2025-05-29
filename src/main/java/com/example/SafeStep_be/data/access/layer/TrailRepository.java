@@ -16,7 +16,7 @@ import java.util.UUID;
 public interface TrailRepository extends JpaRepository<TrailEntity, UUID> {
 
     @Query("""
-                SELECT new com.example.SafeStep_be.dto.TrailSummaryDto(t.id, t.name, t.distanceKm, t.difficulty)
+                SELECT new com.example.SafeStep_be.dto.TrailSummaryDto(t.id, t.name, t.distanceKm, t.difficulty, t.location)
                 FROM TrailEntity t
                 WHERE (:name IS NULL OR :name = '' OR
                        cast(function('unaccent', lower(t.name)) as string) LIKE cast(function('unaccent', lower(concat('%', :name, '%'))) as string))

@@ -13,6 +13,7 @@ public record FavoriteTrailDto(
         String name,
         BigDecimal distanceKm,
         String difficulty,
+        String location,
         LocalDateTime addedAt,
         String mainImageUrl
 

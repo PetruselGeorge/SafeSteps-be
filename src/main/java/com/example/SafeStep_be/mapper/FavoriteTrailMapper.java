@@ -11,6 +11,7 @@ public interface FavoriteTrailMapper {
     @Mapping(source = "trail.name", target = "name")
     @Mapping(source = "trail.distanceKm", target = "distanceKm")
     @Mapping(source = "trail.difficulty", target = "difficulty")
+    @Mapping(source = "trail.location", target = "location")
     @Mapping(source = "addedAt", target = "addedAt")
     @Mapping(target = "mainImageUrl", expression = "java(\"/api/trails/\" + entity.getTrail().getId() + \"/main-image\")")
     FavoriteTrailDto toDto(FavoriteTrailEntity entity);

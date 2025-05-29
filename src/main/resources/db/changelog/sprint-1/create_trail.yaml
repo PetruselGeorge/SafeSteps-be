@@ -28,6 +28,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: location
+                  type: VARCHAR(120)
+                  constraints:
+                    nullable: true
+              - column:
                   name: main_image
                   type: BLOB
                   constraints:

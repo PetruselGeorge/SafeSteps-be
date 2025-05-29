@@ -21,6 +21,9 @@ public record TrailResponseDto(
         @NotBlank(message = "Difficulty must not be blank")
         String difficulty,
 
+        String location,
+
+
         String mainImageUrl
 
 ) {}

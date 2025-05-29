@@ -1,5 +1,6 @@
 package com.example.SafeStep_be.bo.impl;
 
+import com.example.SafeStep_be.bo.ReverseGeocodingBo;
 import com.example.SafeStep_be.bo.TrailBo;
 import com.example.SafeStep_be.bo.utils.ComputeTotalDistance;
 import com.example.SafeStep_be.bo.utils.LatLng;
@@ -38,6 +39,7 @@ public class TrailBoImplementation implements TrailBo {
     private final TrailRepository trailRepository;
     private final TrailCoordinateRepository trailCoordinateRepository;
     private final TrailDifficultyEstimator trailDifficultyEstimator;
+    private final ReverseGeocodingBo reverseGeocodingBo;
     @Override
     public TrailEntity createTrailFromGpx(MultipartFile gpxFile) {
         try {
@@ -84,7 +86,12 @@ public class TrailBoImplementation implements TrailBo {
                         .build());
             }
             trailCoordinateRepository.saveAll(coordinateEntities);
-
+            if (!points.isEmpty()) {
+                LatLng firstPoint = points.getFirst();
+                String location = reverseGeocodingBo.getCountryFromCoordinates(firstPoint.getLat(), firstPoint.getLon());
+                trailEntity.setLocation(location);
+                trailRepository.save(trailEntity);
+            }
             return trailEntity;
         } catch (IOException | ParserConfigurationException | SAXException e) {
             throw new RuntimeException(e);

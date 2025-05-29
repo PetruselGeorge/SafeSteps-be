@@ -8,5 +8,6 @@ public record TrailSummaryDto(
         UUID id,
         String name,
         BigDecimal distanceKm,
-        String difficulty
+        String difficulty,
+        String location
 ) {}

@@ -32,6 +32,9 @@ public class TrailEntity {
     @Column(name = "difficulty", nullable = false, length = 90)
     private String difficulty;
 
+    @Column(name = "location", length = 120)
+    private String location;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
