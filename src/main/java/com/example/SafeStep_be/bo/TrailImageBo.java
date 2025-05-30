@@ -4,6 +4,7 @@ import com.example.SafeStep_be.data.access.layer.entities.TrailImageEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface TrailImageBo {
@@ -12,5 +13,8 @@ public interface TrailImageBo {
     void saveTrailImage(UUID trailId, MultipartFile imageFile);
 
     void deleteImage(UUID trailId, UUID imageId);
+
+    Optional<TrailImageEntity> findByTrailIdAndImageId(UUID trailId, UUID imageId);
+
 
 }

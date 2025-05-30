@@ -25,4 +25,9 @@ public interface TrailImageController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     ResponseEntity<Void> deleteImage(@PathVariable UUID trailId, @PathVariable UUID imageId);
 
+    @GetMapping("/{trailId}/images/{imageId}")
+    ResponseEntity<byte[]> getAdditionalImage(
+            @PathVariable UUID trailId,
+            @PathVariable UUID imageId);
+
 }

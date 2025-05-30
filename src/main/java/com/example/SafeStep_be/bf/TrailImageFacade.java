@@ -1,6 +1,7 @@
 package com.example.SafeStep_be.bf;
 
 import com.example.SafeStep_be.dto.TrailImageDto;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -12,5 +13,5 @@ public interface TrailImageFacade {
     void uploadImage(UUID trailId, MultipartFile imageFile);
 
     void deleteImage(UUID trailId, UUID imageId);
-
+    ResponseEntity<byte[]> getImageResponse(UUID trailId, UUID imageId);
 }

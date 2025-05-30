@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -17,5 +18,7 @@ public interface TrailImageRepository extends JpaRepository<TrailImageEntity, UU
                 WHERE ti.trail = :trail
             """)
     List<TrailImageEntity> findAllByTrailWithTrailFetched(TrailEntity trail);
+
+    Optional<TrailImageEntity> findByTrailIdAndId(UUID trailId, UUID imageId);
 
 }

@@ -5,6 +5,7 @@ import com.example.SafeStep_be.bf.TrailImageFacade;
 import com.example.SafeStep_be.dto.TrailImageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,5 +38,12 @@ public class TrailImageControllerImpl implements TrailImageController {
     public ResponseEntity<Void> deleteImage(UUID trailId, UUID imageId) {
         trailImageFacade.deleteImage(trailId, imageId);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<byte[]> getAdditionalImage(
+            @PathVariable UUID trailId,
+            @PathVariable UUID imageId) {
+        return trailImageFacade.getImageResponse(trailId, imageId);
     }
 }

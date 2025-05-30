@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -63,4 +64,8 @@ public class TrailImageBoImpl implements TrailImageBo {
         trailImageRepository.delete(image);
     }
 
+    @Override
+    public Optional<TrailImageEntity> findByTrailIdAndImageId(UUID trailId, UUID imageId) {
+        return trailImageRepository.findByTrailIdAndId(trailId, imageId);
+    }
 }
