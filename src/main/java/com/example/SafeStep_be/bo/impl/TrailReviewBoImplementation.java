@@ -78,4 +78,14 @@ public class TrailReviewBoImplementation implements TrailReviewBo {
         UUID userId = jwtTokenUtil.extractUserId(token);
         return trailReviewRepository.findByTrailWithUserFirst(trailId, userId, pageable);
     }
+
+    @Override
+    public Double calculateAverageRating(UUID trailId) {
+        return trailReviewRepository.getAverageRatingForTrail(trailId);
+    }
+
+    @Override
+    public Long countTotalRatings(UUID trailId) {
+        return trailReviewRepository.getRatingCountForTrail(trailId);
+    }
 }

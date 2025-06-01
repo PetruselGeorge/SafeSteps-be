@@ -2,6 +2,7 @@ package com.example.SafeStep_be.access.rest.api.external.impl;
 
 import com.example.SafeStep_be.access.rest.api.external.TrailReviewController;
 import com.example.SafeStep_be.bf.TrailReviewFacade;
+import com.example.SafeStep_be.dto.TrailAverageRatingDto;
 import com.example.SafeStep_be.dto.TrailReviewDto;
 import com.example.SafeStep_be.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +46,10 @@ public class TrailReviewControllerImpl implements TrailReviewController {
         String token = jwtTokenUtil.extractTokenFromHeader(authHeader);
         PageRequest pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         return ResponseEntity.ok(trailReviewFacade.getAll(trailId, token, pageable));
+    }
+
+    @Override
+    public ResponseEntity<TrailAverageRatingDto> getAverageRating(UUID trailId) {
+        return ResponseEntity.ok(trailReviewFacade.getAverageRatingForTrail(trailId));
     }
 }

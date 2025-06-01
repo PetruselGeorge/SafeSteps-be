@@ -1,7 +1,7 @@
 package com.example.SafeStep_be.data.access.layer;
 
-import com.example.SafeStep_be.data.access.layer.entities.TrailReviewEntity;
 import com.example.SafeStep_be.data.access.layer.entities.TrailEntity;
+import com.example.SafeStep_be.data.access.layer.entities.TrailReviewEntity;
 import com.example.SafeStep_be.data.access.layer.entities.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,4 +26,18 @@ public interface TrailReviewRepository extends JpaRepository<TrailReviewEntity, 
     );
 
     boolean existsByTrailAndUser(TrailEntity trail, UserEntity user);
+
+    @Query("""
+                SELECT AVG(r.rating)
+                FROM TrailReviewEntity r
+                WHERE r.trail.id = :trailId AND r.rating > 0
+            """)
+    Double getAverageRatingForTrail(@Param("trailId") UUID trailId);
+
+    @Query("""
+                SELECT COUNT(r)
+                FROM TrailReviewEntity r
+                WHERE r.trail.id = :trailId AND r.rating > 0
+            """)
+    Long getRatingCountForTrail(@Param("trailId") UUID trailId);
 }

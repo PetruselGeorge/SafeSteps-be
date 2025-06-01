@@ -14,4 +14,8 @@ public interface TrailReviewBo {
     void deleteReview(UUID reviewId, String token);
 
     Page<TrailReviewEntity> getReviews(UUID trailId, String token, Pageable pageable);
+
+    Double calculateAverageRating(UUID trailId);
+
+    Long countTotalRatings(UUID trailId);
 }

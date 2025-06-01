@@ -1,5 +1,6 @@
 package com.example.SafeStep_be.bf;
 
+import com.example.SafeStep_be.dto.TrailAverageRatingDto;
 import com.example.SafeStep_be.dto.TrailReviewDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,4 +15,6 @@ public interface TrailReviewFacade {
     void delete(UUID reviewId, String token);
 
     Page<TrailReviewDto> getAll(UUID trailId, String token, Pageable pageable);
+
+    TrailAverageRatingDto getAverageRatingForTrail(UUID trailId);
 }

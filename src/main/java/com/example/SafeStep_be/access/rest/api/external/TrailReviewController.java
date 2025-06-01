@@ -1,5 +1,6 @@
 package com.example.SafeStep_be.access.rest.api.external;
 
+import com.example.SafeStep_be.dto.TrailAverageRatingDto;
 import com.example.SafeStep_be.dto.TrailReviewDto;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
@@ -40,5 +41,10 @@ public interface TrailReviewController {
             @RequestHeader("Authorization") String token,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
+    );
+
+    @GetMapping("/{trailId}/average-rating")
+    ResponseEntity<TrailAverageRatingDto> getAverageRating(
+            @PathVariable UUID trailId
     );
 }

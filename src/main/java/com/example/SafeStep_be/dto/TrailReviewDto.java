@@ -7,6 +7,7 @@ public record TrailReviewDto(
         UUID id,
         UUID trailId,
         String username,
+        String userEmail,
         int rating,
         String comment,
         LocalDateTime createdAt

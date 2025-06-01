@@ -2,6 +2,7 @@ package com.example.SafeStep_be.bf.impl;
 
 import com.example.SafeStep_be.bf.TrailReviewFacade;
 import com.example.SafeStep_be.bo.TrailReviewBo;
+import com.example.SafeStep_be.dto.TrailAverageRatingDto;
 import com.example.SafeStep_be.dto.TrailReviewDto;
 import com.example.SafeStep_be.mapper.TrailReviewMapper;
 import lombok.RequiredArgsConstructor;
@@ -41,5 +42,12 @@ public class TrailReviewFacadeImpl implements TrailReviewFacade {
     public Page<TrailReviewDto> getAll(UUID trailId, String token, Pageable pageable) {
         return trailReviewBo.getReviews(trailId, token, pageable)
                 .map(trailReviewMapper::toDto);
+    }
+
+    @Override
+    public TrailAverageRatingDto getAverageRatingForTrail(UUID trailId) {
+        Double average = trailReviewBo.calculateAverageRating(trailId);
+        Long count = trailReviewBo.countTotalRatings(trailId);
+        return trailReviewMapper.toAverageRatingDto(average, count);
     }
 }
