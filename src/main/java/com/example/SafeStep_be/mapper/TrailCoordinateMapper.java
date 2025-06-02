@@ -14,6 +14,7 @@
         @Mapping(source = "latitude", target = "latitude")
         @Mapping(source = "longitude", target = "longitude")
         @Mapping(source = "positionOrder", target = "positionOrder")
+        @Mapping(source = "segmentIndex", target = "segmentIndex")
         TrailCoordinateDto toDto(TrailCoordinateEntity entity);
 
         List<TrailCoordinateDto> toDtoList(List<TrailCoordinateEntity> entities);

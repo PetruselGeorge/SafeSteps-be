@@ -53,47 +53,57 @@ public class TrailBoImplementation implements TrailBo {
             NodeList nameNodes = doc.getElementsByTagNameNS("*", "name");
             String name = (nameNodes.getLength() > 0) ? nameNodes.item(0).getTextContent() : "Unnamed Trail";
 
-
-            NodeList trkptNodes = doc.getElementsByTagNameNS("*", "trkpt");
-            List<LatLng> points = new ArrayList<>();
-
-            for (int i = 0; i < trkptNodes.getLength(); i++) {
-                Element trkpt = (Element) trkptNodes.item(i);
-                double lat = Double.parseDouble(trkpt.getAttribute("lat"));
-                double lon = Double.parseDouble(trkpt.getAttribute("lon"));
-                points.add(new LatLng(lat, lon));
-            }
-
-            BigDecimal distance = ComputeTotalDistance.computeTotalDistance(points);
-            String difficulty = trailDifficultyEstimator.estimateDifficulty(points, name, distance);
+            NodeList segNodes = doc.getElementsByTagNameNS("*", "trkseg");
+            List<LatLng> allPoints = new ArrayList<>();
+            List<TrailCoordinateEntity> coordinateEntities = new ArrayList<>();
 
             TrailEntity trailEntity = TrailEntity.builder()
                     .name(name)
-                    .difficulty(difficulty)
-                    .distanceKm(distance)
+                    .difficulty("pending")
+                    .distanceKm(BigDecimal.ZERO)
                     .build();
 
             trailRepository.save(trailEntity);
 
-            List<TrailCoordinateEntity> coordinateEntities = new ArrayList<>();
+            int segmentIndex = 0;
+            for (int s = 0; s < segNodes.getLength(); s++) {
+                Element seg = (Element) segNodes.item(s);
+                NodeList trkptNodes = seg.getElementsByTagNameNS("*", "trkpt");
 
-            for (int i = 0; i < points.size(); i++) {
-                LatLng p = points.get(i);
-                coordinateEntities.add(TrailCoordinateEntity.builder()
-                        .trail(trailEntity)
-                        .latitude(p.getLat())
-                        .longitude(p.getLon())
-                        .positionOrder(i)
-                        .build());
+                for (int i = 0; i < trkptNodes.getLength(); i++) {
+                    Element trkpt = (Element) trkptNodes.item(i);
+                    double lat = Double.parseDouble(trkpt.getAttribute("lat"));
+                    double lon = Double.parseDouble(trkpt.getAttribute("lon"));
+                    LatLng point = new LatLng(lat, lon);
+                    allPoints.add(point);
+
+                    coordinateEntities.add(TrailCoordinateEntity.builder()
+                            .trail(trailEntity)
+                            .latitude(lat)
+                            .longitude(lon)
+                            .positionOrder(i)
+                            .segmentIndex(segmentIndex)
+                            .build());
+                }
+                segmentIndex++;
             }
+
             trailCoordinateRepository.saveAll(coordinateEntities);
-            if (!points.isEmpty()) {
-                LatLng firstPoint = points.getFirst();
+
+            BigDecimal distance = ComputeTotalDistance.computeTotalDistance(allPoints);
+            String difficulty = trailDifficultyEstimator.estimateDifficulty(allPoints, name, distance);
+            trailEntity.setDistanceKm(distance);
+            trailEntity.setDifficulty(difficulty);
+
+            if (!allPoints.isEmpty()) {
+                LatLng firstPoint = allPoints.getFirst();
                 String location = reverseGeocodingBo.getCountryFromCoordinates(firstPoint.getLat(), firstPoint.getLon());
                 trailEntity.setLocation(location);
-                trailRepository.save(trailEntity);
             }
+
+            trailRepository.save(trailEntity);
             return trailEntity;
+
         } catch (IOException | ParserConfigurationException | SAXException e) {
             throw new RuntimeException(e);
         }

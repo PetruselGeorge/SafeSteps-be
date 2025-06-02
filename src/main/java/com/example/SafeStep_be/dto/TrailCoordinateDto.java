@@ -6,5 +6,6 @@ public record TrailCoordinateDto(
         UUID id,
         double latitude,
         double longitude,
-        int positionOrder
+        int positionOrder,
+        int segmentIndex
 ) {}

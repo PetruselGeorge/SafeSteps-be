@@ -30,4 +30,7 @@ public class TrailCoordinateEntity {
 
     @Column(name = "position_order", nullable = false)
     private int positionOrder;
+
+    @Column(name = "segment_index", nullable = false)
+    private int segmentIndex;
 }
