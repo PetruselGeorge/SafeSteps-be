@@ -87,13 +87,7 @@ Press OK and now you can run both.
 
 The backend follows a Layered Architecture, influenced by Clean Architecture principles:
 
-Controller
-   ↓
-Facade (BF)
-   ↓
-Business Object (BO)
-   ↓
-Data Access Layer (Repository + Entity)
+Controller->Facade (BF)->Business Object (BO)->Data Access Layer (Repository + Entity);
 
 ..Controller: Handles HTTP requests, validates input, and delegates to the facade layer.
 
