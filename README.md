@@ -95,24 +95,18 @@ Business Object (BO)
    ↓
 Data Access Layer (Repository + Entity)
 
-Controller: Handles HTTP requests, validates input, and delegates to the facade layer.
+..Controller: Handles HTTP requests, validates input, and delegates to the facade layer.
+..Facade (BF): Mediates between controller and business logic, applying coordination and validation.
+..Business Object (BO): Core business logic (e.g., login, trail handling).
+..Data Access Layer: Spring Data JPA repositories and entity classes that map to PostgreSQL.
+..DTO + Mapper: Convert between internal models and exposed API structures.
 
-Facade (BF): Mediates between controller and business logic, applying coordination and validation.
-
-Business Object (BO): Core business logic (e.g., login, trail handling).
-
-Data Access Layer: Spring Data JPA repositories and entity classes that map to PostgreSQL.
-
-DTO + Mapper: Convert between internal models and exposed API structures.
+\\
 
 This architecture enables:
-
-Separation of concerns and testability
-
-Scalability and easy extension
-
-Secure JWT-based authentication
-
-Modularity for clean code management
+..Separation of concerns and testability
+..Scalability and easy extension
+..Secure JWT-based authentication
+..Modularity for clean code management
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
