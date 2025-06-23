@@ -37,4 +37,39 @@ cd safesteps-backend
 
 
 Set Up: Database Initialization with External Tool (IntelliJ)
-After cloning the backend repository: git clone https://github.com/your-username/safesteps-backend.git
+After cloning the backend repository: git clone https://github.com/PetruselGeorge/safesteps-be.git
+ Step 1: Create External Tool
+Open IntelliJ and go to:
+File > Settings > Tools > External Tools
+
+Click the "+" icon and fill in the fields as follows:
+
+Field	Value
+Name	DB Creation
+Program	C:\Program Files\Git\bin\bash.exe (or your Git Bash path)
+Arguments	startup-database.sh
+Working Dir	[Project Root]/src/main/resources/bash.cfg/
+Description	Creation of the database
+
+Make sure these are also selected:
+Synchronize files after execution
+
+Open console for tool output
+
+Your final config should look like this:
+
+Step 2: Run from Run/Debug Configurations
+Go to Run > Edit Configurations
+
+Click "+" and select Compound
+
+Name it Start Project + DB
+
+In the “Run configuration” list, add:
+
+DB Creation (the tool you just created)
+
+Spring Boot App (or your backend Application config)
+
+Press OK and now you can run both from the green play button in one go.
+
